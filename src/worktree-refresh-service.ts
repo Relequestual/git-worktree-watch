@@ -91,9 +91,10 @@ export class WorktreeRefreshService {
 
 		const worktreesDirectoryWatcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(commonGitDir, 'worktrees'));
 		const worktreeMetadataWatcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(commonGitDir, 'worktrees/**'));
-		const disposables = [worktreesDirectoryWatcher, worktreeMetadataWatcher];
+		const watchers = [worktreesDirectoryWatcher, worktreeMetadataWatcher];
+		const disposables: vscode.Disposable[] = [...watchers];
 
-		for (const watcher of disposables) {
+		for (const watcher of watchers) {
 			watcher.onDidCreate(uri => this.scheduleRescan(`worktree metadata created: ${uri.fsPath}`), undefined, disposables);
 			watcher.onDidChange(uri => this.scheduleRescan(`worktree metadata changed: ${uri.fsPath}`), undefined, disposables);
 			watcher.onDidDelete(uri => this.scheduleRescan(`worktree metadata deleted: ${uri.fsPath}`), undefined, disposables);
