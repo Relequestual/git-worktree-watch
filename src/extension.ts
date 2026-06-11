@@ -24,6 +24,8 @@ export async function activate(context: vscode.ExtensionContext) {
 		const gitApi = await getGitApi(output);
 		output.appendLine(`Initial Git API connection succeeded with ${gitApi.repositories.length} open repository/repositories.`);
 		refreshService = new WorktreeRefreshService(gitApi, output);
+		context.subscriptions.push(refreshService);
+		await refreshService.start();
 		await refreshService.rescanAllRepositories('activation');
 	} catch (error) {
 		output.appendLine(`Initial Git API connection failed: ${formatError(error)}`);
