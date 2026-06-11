@@ -1,26 +1,33 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
 
-// This method is called when your extension is activated
-// Your extension is activated the very first time the command is executed
-export function activate(context: vscode.ExtensionContext) {
+import { getGitApi } from './vscode-git';
 
-	// Use the console to output diagnostic information (console.log) and errors (console.error)
-	// This line of code will only be executed once when your extension is activated
-	console.log('Congratulations, your extension "git-worktree-refresh" is now active!');
+const output = vscode.window.createOutputChannel('Git Worktree Refresh');
 
-	// The command has been defined in the package.json file
-	// Now provide the implementation of the command with registerCommand
-	// The commandId parameter must match the command field in package.json
-	const disposable = vscode.commands.registerCommand('git-worktree-refresh.helloWorld', () => {
-		// The code you place here will be executed every time your command is executed
-		// Display a message box to the user
-		vscode.window.showInformationMessage('Hello World from vscode-git-worktree-refresh!');
+export async function activate(context: vscode.ExtensionContext) {
+	output.appendLine('Activating Git Worktree Refresh.');
+
+	const rescanCommand = vscode.commands.registerCommand('git-worktree-refresh.rescan', async () => {
+		const gitApi = await getGitApi(output);
+		output.appendLine(`Connected to VS Code Git API with ${gitApi.repositories.length} open repository/repositories.`);
 	});
 
-	context.subscriptions.push(disposable);
+	const showOutputCommand = vscode.commands.registerCommand('git-worktree-refresh.showOutput', () => {
+		output.show();
+	});
+
+	context.subscriptions.push(output, rescanCommand, showOutputCommand);
+
+	try {
+		const gitApi = await getGitApi(output);
+		output.appendLine(`Initial Git API connection succeeded with ${gitApi.repositories.length} open repository/repositories.`);
+	} catch (error) {
+		output.appendLine(`Initial Git API connection failed: ${formatError(error)}`);
+	}
 }
 
-// This method is called when your extension is deactivated
 export function deactivate() {}
+
+function formatError(error: unknown): string {
+	return error instanceof Error ? error.message : String(error);
+}

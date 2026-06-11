@@ -1,6 +1,6 @@
 {
   "name": "git-worktree-refresh",
-  "displayName": "vscode-git-worktree-refresh",
+  "displayName": "Git Worktree Refresh",
   "description": "Automatically refresh VS Code Git repositories when worktrees are created externally.",
   "version": "0.0.1",
   "engines": {
@@ -9,15 +9,42 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [
       {
-        "command": "git-worktree-refresh.helloWorld",
-        "title": "Hello World"
+        "command": "git-worktree-refresh.rescan",
+        "title": "Git Worktree Refresh: Rescan Worktrees"
+      },
+      {
+        "command": "git-worktree-refresh.showOutput",
+        "title": "Git Worktree Refresh: Show Output"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Git Worktree Refresh",
+      "properties": {
+        "gitWorktreeRefresh.autoRefresh": {
+          "type": "boolean",
+          "default": true,
+          "description": "Automatically rescan Git worktrees when worktree metadata changes."
+        },
+        "gitWorktreeRefresh.debounceMs": {
+          "type": "number",
+          "default": 750,
+          "minimum": 100,
+          "description": "Delay in milliseconds before rescanning after a worktree metadata change."
+        },
+        "gitWorktreeRefresh.showNotifications": {
+          "type": "boolean",
+          "default": false,
+          "description": "Show VS Code notifications when worktree refresh events occur or fail."
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run compile",
