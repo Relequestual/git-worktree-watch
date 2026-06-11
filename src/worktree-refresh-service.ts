@@ -89,8 +89,9 @@ export class WorktreeRefreshService {
 			return;
 		}
 
+		const worktreesPath = path.join(commonGitDir, 'worktrees');
 		const worktreesDirectoryWatcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(commonGitDir, 'worktrees'));
-		const worktreeMetadataWatcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(commonGitDir, 'worktrees/**'));
+		const worktreeMetadataWatcher = vscode.workspace.createFileSystemWatcher(new vscode.RelativePattern(vscode.Uri.file(worktreesPath), '*'));
 		const watchers = [worktreesDirectoryWatcher, worktreeMetadataWatcher];
 		const disposables: vscode.Disposable[] = [...watchers];
 
@@ -101,7 +102,7 @@ export class WorktreeRefreshService {
 		}
 
 		this.watcherDisposables.set(commonGitDir, disposables);
-		this.log(`Watching worktree metadata in ${commonGitDir}.`);
+		this.log(`Watching worktree metadata in ${worktreesPath}.`);
 	}
 
 	private scheduleRescan(reason: string): void {
