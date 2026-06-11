@@ -3,14 +3,19 @@
   "displayName": "Git Worktree Refresh",
   "description": "Automatically refresh VS Code Git repositories when worktrees are created externally.",
   "version": "0.0.1",
+  "publisher": "relequestual",
+  "license": "UNLICENSED",
   "engines": {
     "vscode": "^1.120.0"
   },
   "categories": [
-    "Other"
+    "SCM Providers"
   ],
   "activationEvents": [
     "onStartupFinished"
+  ],
+  "extensionDependencies": [
+    "vscode.git"
   ],
   "main": "./out/extension.js",
   "contributes": {

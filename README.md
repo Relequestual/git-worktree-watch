@@ -1,71 +1,75 @@
-# git-worktree-refresh README
+# Git Worktree Refresh
 
-This is the README for your extension "git-worktree-refresh". After writing up a brief description, we recommend including the following sections.
+Git Worktree Refresh helps VS Code notice Git worktrees that were created outside VS Code.
+
+When a repository is open, the extension watches the repository's common Git directory for worktree metadata changes. When that metadata changes, it rescans known Git worktrees and asks VS Code's built-in Git extension to open any worktree repositories that are not already registered in Source Control.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- Watches `.git/worktrees` metadata for open repositories.
+- Opens newly discovered worktrees through VS Code's built-in Git API.
+- Provides a manual `Git Worktree Refresh: Rescan Worktrees` command.
+- Logs decisions and failures to the `Git Worktree Refresh` output channel.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+- VS Code with the built-in Git extension enabled.
+- Git available on `PATH`.
+- Local repositories must be trusted by VS Code workspace trust before VS Code can open them.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
-
-For example:
-
 This extension contributes the following settings:
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- `gitWorktreeRefresh.autoRefresh`: Enable or disable automatic metadata watching. Defaults to `true`.
+- `gitWorktreeRefresh.debounceMs`: Delay before rescanning after metadata changes. Defaults to `750`.
+- `gitWorktreeRefresh.showNotifications`: Show notifications for refresh events and failures. Defaults to `false`.
+
+## Local Build And Install
+
+Install dependencies:
+
+```sh
+pnpm install
+```
+
+Compile:
+
+```sh
+pnpm run compile
+```
+
+Package a local VSIX:
+
+```sh
+pnpm dlx @vscode/vsce package
+```
+
+Install the generated `.vsix` from VS Code:
+
+```sh
+code --install-extension git-worktree-refresh-0.0.1.vsix
+```
+
+Reload VS Code after installing.
+
+## Manual Smoke Test
+
+1. Open a Git repository in VS Code.
+2. Confirm Source Control is enabled and the repository appears.
+3. From an external terminal, create a worktree:
+
+   ```sh
+   git worktree add ../repo-feature-branch feature-branch
+   ```
+
+4. Open the Source Control Repositories list.
+5. Confirm the new worktree appears without reloading the window.
+6. If it does not appear, run `Git Worktree Refresh: Rescan Worktrees`.
+7. Check `View: Toggle Output` -> `Git Worktree Refresh` for diagnostics.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
-
-## Release Notes
-
-Users appreciate release notes as you update your extension.
-
-### 1.0.0
-
-Initial release of ...
-
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+- The extension focuses on newly discovered worktrees. Removing worktrees may still rely on VS Code's built-in Git extension to dispose stale repositories.
+- The extension does not edit `.code-workspace` files or add workspace folders.
+- If VS Code rejects a repository because of workspace trust or Git safe-directory rules, this extension logs the failure but does not bypass that protection.

@@ -6,4 +6,6 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 
 ## [Unreleased]
 
-- Initial release
+- Watch Git worktree metadata for open repositories.
+- Rescan worktrees and open newly discovered repositories through VS Code's built-in Git extension.
+- Add manual rescan and output-channel commands.
