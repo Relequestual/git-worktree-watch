@@ -6,6 +6,8 @@ src/**
 vsc-extension-quickstart.md
 **/tsconfig.json
 **/eslint.config.mjs
+**/.oxfmtrc.json
+**/.oxlintrc.json
 **/*.map
 **/*.ts
 **/.vscode-test.*
