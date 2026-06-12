@@ -5,6 +5,7 @@
   "version": "0.0.1",
   "publisher": "relequestual",
   "license": "UNLICENSED",
+  "icon": "media/icon.png",
   "engines": {
     "vscode": "^1.120.0"
   },
