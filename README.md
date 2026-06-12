@@ -5,6 +5,7 @@
 [![Tests: pnpm test](https://img.shields.io/badge/tests-pnpm%20test-brightgreen)](#local-build-and-install)
 
 Git Worktree Refresh helps VS Code notice Git worktrees that were created outside VS Code.
+It exists to address [microsoft/vscode#320749](https://github.com/microsoft/vscode/issues/320749).
 
 When a repository is open, the extension watches the repository's common Git directory for worktree metadata changes. When that metadata changes, it rescans known Git worktrees and asks VS Code's built-in Git extension to open any worktree repositories that are not already registered in Source Control.
 
