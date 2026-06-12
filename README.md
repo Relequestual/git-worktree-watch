@@ -1,5 +1,9 @@
 # Git Worktree Refresh
 
+[![Project Status: WIP - Initial development is in progress, but there has not yet been a stable, usable release suitable for the public.](https://www.repostatus.org/badges/latest/wip.svg)](https://www.repostatus.org/#wip)
+[![Project type: toy](https://img.shields.io/badge/project%20type-toy-blue)](https://project-types.github.io/#toy)
+[![Tests: pnpm test](https://img.shields.io/badge/tests-pnpm%20test-brightgreen)](#local-build-and-install)
+
 Git Worktree Refresh helps VS Code notice Git worktrees that were created outside VS Code.
 
 When a repository is open, the extension watches the repository's common Git directory for worktree metadata changes. When that metadata changes, it rescans known Git worktrees and asks VS Code's built-in Git extension to open any worktree repositories that are not already registered in Source Control.
