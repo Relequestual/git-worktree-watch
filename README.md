@@ -78,3 +78,7 @@ Reload VS Code after installing.
 - The extension focuses on newly discovered worktrees. Removing worktrees may still rely on VS Code's built-in Git extension to dispose stale repositories.
 - The extension does not edit `.code-workspace` files or add workspace folders.
 - If VS Code rejects a repository because of workspace trust or Git safe-directory rules, this extension logs the failure but does not bypass that protection.
+
+## License
+
+MIT
